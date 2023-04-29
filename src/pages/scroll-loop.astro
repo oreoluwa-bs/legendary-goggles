@@ -1,0 +1,126 @@
+---
+import "@fontsource/bodoni-moda";
+import Layout from "src/layouts/Layout.astro";
+
+const navLinks = [
+  "Fascination Street",
+  "The Last Dance",
+  "Rebel Fantasies",
+  "Love Letters to Cipher",
+  "Henry and the Kids",
+  "Downtown Blank",
+  "Georgetown Blues",
+  "When Alice comes",
+  "A Rabbit's Dream",
+  "Schizophrenia House",
+  "Foundation Fabrics",
+  "Whenever Whatever",
+  "Feathers of Babel",
+  "Golden Freckles",
+];
+---
+
+<Layout title="Scroll Loop Menu">
+  <main>
+    <ul role="navigation" class="navlinks">
+      {
+        navLinks.map((item, index) => {
+          return (
+            <li class="navlinks__item">
+              <a>{item}</a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </main>
+</Layout>
+<style lang="scss" scoped>
+  :root {
+    --base-color: #c0092b;
+  }
+
+  //   * {
+  //     outline: 1px solid var(--base-color);
+  //   }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .navlinks {
+    font-family: "Bodoni Moda", serif;
+    list-style: none;
+    height: 100vh;
+    overflow-y: auto;
+
+    margin: 0;
+    width: 100%;
+    text-align: right;
+
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &__item {
+      font-size: 4vw;
+      margin-right: 25vw;
+
+      a {
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+        transition: transform 0.25s;
+        padding: 0 clamp(1rem, 4.5vw, 60px);
+        line-height: 2;
+
+        &::before {
+          //   content: "";
+          width: 55px;
+          height: 1.25px;
+          display: inline-block;
+          background-color: var(--base-color);
+
+          position: absolute;
+          top: 50%;
+          left: 0;
+
+          transform: translate(-50%, -50%);
+        }
+
+        &:hover {
+          color: var(--base-color);
+          transform: translateX(100px);
+
+          font-style: italic;
+
+          &::before {
+            content: "";
+          }
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+  import { ScrollLoop } from "src/app/scroll-loop";
+
+  const scrollArea = document.querySelector<HTMLElement>(".navlinks")!;
+  const original = document.querySelectorAll<HTMLLIElement>(".navlinks__item");
+
+  let clones: HTMLElement[] = [];
+  original.forEach((item) => {
+    const clone = item.cloneNode(true) as HTMLElement;
+    clone.setAttribute("data-clone", "true");
+
+    // console.log(clone);
+    scrollArea.append(clone);
+    clones.push(clone);
+  });
+
+  const navScrollLoop = new ScrollLoop({ scrollArea, clones });
+</script>
