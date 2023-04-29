@@ -10,6 +10,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.3.2"
+    "@fontsource/bodoni-moda": "^4.5.10",
+    "astro": "^2.3.2",
+    "sass": "^1.62.1"
   }
 }
