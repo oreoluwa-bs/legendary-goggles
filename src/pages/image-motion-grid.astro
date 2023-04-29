@@ -1,0 +1,158 @@
+---
+import "@fontsource/abril-fatface";
+import Layout from "src/layouts/Layout.astro";
+
+const images = [
+  "https://plus.unsplash.com/premium_photo-1680040211019-29a8dbb250d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2160&q=80",
+  "https://plus.unsplash.com/premium_photo-1682500051076-9b4119f644b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80",
+  "https://images.unsplash.com/photo-1682681857663-7a5cf876ad1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80",
+  "https://plus.unsplash.com/premium_photo-1682401101581-b6be0396b706?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  "https://plus.unsplash.com/premium_photo-1676660359929-db7212759d24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  "https://plus.unsplash.com/premium_photo-1681223965264-6d81ae3bb399?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  "https://images.unsplash.com/photo-1682625247239-f0761c5ddb2e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  "https://plus.unsplash.com/premium_photo-1681223964644-d76b97e65ca9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80",
+  "https://images.unsplash.com/photo-1682589183381-9c1ca231d242?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  "https://images.unsplash.com/photo-1682608452409-2ff646571d34?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=669&q=80",
+  //   "https://images.unsplash.com/photo-1682100615199-5a90830ccbb3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1828&q=80",
+  //   "https://images.unsplash.com/photo-1682621077269-cac5773fbd3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80",
+];
+---
+
+<style lang="scss" scoped>
+  html {
+    background-color: black !important;
+    color: white !important;
+  }
+  html,
+  body,
+  main {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .grid {
+    pointer-events: none;
+
+    position: absolute;
+    width: 110%;
+    height: 110%;
+    top: -5%;
+    left: -5%;
+
+    display: grid;
+    grid-template-columns: repeat(50, 2%);
+    grid-template-rows: repeat(50, 2%);
+
+    &__item {
+      position: relative;
+      opacity: 0;
+
+      &-img {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: 50% 50%;
+      }
+    }
+
+    // row-start / column-start / row-end / column-end
+    .pos-1 {
+      grid-area: 10 / 1 / 26 / 7;
+    }
+
+    .pos-2 {
+      grid-area: 1 / 18 / 9 / 27;
+    }
+
+    .pos-3 {
+      grid-area: 1 / 36 / 14 / 42;
+    }
+
+    .pos-4 {
+      grid-area: 30 / 12 / 38 / 20;
+    }
+
+    .pos-5 {
+      grid-area: 15 / 8 / 22 / 16;
+    }
+
+    .pos-6 {
+      grid-area: 40 / 44 / 22 / 50;
+    }
+
+    .pos-7 {
+      grid-area: 10 / 43 / 16 / 50;
+    }
+
+    .pos-8 {
+      grid-area: 20 / 33 / 32 / 39;
+    }
+
+    .pos-9 {
+      grid-area: 40 / 6 / 50 / 12;
+    }
+
+    .pos-10 {
+      grid-area: 38 / 29 / 50 / 35;
+    }
+  }
+
+  .grid--3 {
+    .grid__item {
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      will-change: transform;
+    }
+
+    .grid__item-img {
+      flex: none;
+      width: calc(100% + 100px);
+      height: calc(100% + 100px);
+      will-change: transform;
+    }
+  }
+
+  main h1 {
+    font-size: 6vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    font-family: "Abril Fatface", cursive;
+  }
+</style>
+
+<Layout title="Image Motion Grid">
+  <main>
+    <div class="grid">
+      {
+        images.map((item, index) => (
+          <div class={`grid__item pos-${index + 1}`}>
+            <div
+              class="grid__item-img"
+              style={`background-image:url(${item});`}
+            />
+          </div>
+        ))
+      }
+    </div>
+
+    <h1>💸 CLAAT 💸</h1>
+  </main>
+</Layout>
+
+<script>
+  import { MotionGrid } from "~/app/motion-grid";
+
+  const gridEl = document.querySelector<HTMLElement>(".grid")!;
+  const grid = new MotionGrid({
+    element: gridEl,
+    gridItems: gridEl.querySelectorAll(".grid__item"),
+  });
+</script>
