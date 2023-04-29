@@ -10,8 +10,10 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@fontsource/abril-fatface": "^4.5.9",
     "@fontsource/bodoni-moda": "^4.5.10",
     "astro": "^2.3.2",
+    "gsap": "^3.11.5",
     "sass": "^1.62.1"
   },
   "devDependencies": {
