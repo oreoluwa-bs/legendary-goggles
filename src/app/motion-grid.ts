@@ -74,8 +74,19 @@ class GridItem {
 
     // infinite loop
     const render = () => {
+      /**
+       * 🚨🚨🚨🚨 Explanation
+       *
+       * lerp essentially gets a value from a percentage (third argument) between the first two arguments
+       *
+       * map picks a new value by converting from one range to its equivalent in another
+       *
+       * i.e Get the 7th pecercent value between the tranlastion value (0 for example) and the new mapped value
+       * in the range of -xstart and xstart i.e -60 and 60;
+       */
+
       // Calculate the amount to move.
-      // Using linear interpolation to smooth things out.
+      // Using linear i‼️nterpolation to smooth things out.
       // Translation values will be in the range of [-start, start] for a cursor movement from 0 to the window's width/height
       translationVals.tx = lerp(
         translationVals.tx,
