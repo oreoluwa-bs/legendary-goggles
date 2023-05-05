@@ -1,0 +1,232 @@
+---
+import "@fontsource/abril-fatface";
+import Layout from "src/layouts/Layout.astro";
+
+const menuLinks = [
+  {
+    label: "Maria Costa",
+    image:
+      "https://plus.unsplash.com/premium_photo-1680040211019-29a8dbb250d5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2160&q=80",
+  },
+  {
+    label: "Lana Ferrari",
+    image:
+      "https://plus.unsplash.com/premium_photo-1682500051076-9b4119f644b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80",
+  },
+  {
+    label: "Franklin Roth",
+    image:
+      "https://images.unsplash.com/photo-1682681857663-7a5cf876ad1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80",
+  },
+  {
+    label: "Christie Noe",
+    image:
+      "https://plus.unsplash.com/premium_photo-1682401101581-b6be0396b706?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  },
+  {
+    label: "Wilma Quest",
+    image:
+      "https://plus.unsplash.com/premium_photo-1676660359929-db7212759d24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  },
+  {
+    label: "Gary Winston",
+    image:
+      "https://plus.unsplash.com/premium_photo-1681223965264-6d81ae3bb399?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  },
+  {
+    label: "Nesta Freeman",
+    image:
+      "https://images.unsplash.com/photo-1682625247239-f0761c5ddb2e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  },
+  {
+    label: "Jolanda French",
+    image:
+      "https://images.unsplash.com/photo-1682589183381-9c1ca231d242?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+  },
+  {
+    label: "Samantha Dunne",
+    image:
+      "https://plus.unsplash.com/premium_photo-1681223964644-d76b97e65ca9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80",
+  },
+  {
+    label: "Jacky Speed",
+    image:
+      "https://images.unsplash.com/photo-1682608452409-2ff646571d34?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=669&q=80",
+  },
+  {
+    label: "Carlton Holle",
+    image:
+      "https://images.unsplash.com/photo-1682100615199-5a90830ccbb3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1828&q=80",
+  },
+  {
+    label: "Kylla Muscheat",
+    image:
+      "https://images.unsplash.com/photo-1682621077269-cac5773fbd3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80",
+  },
+];
+---
+
+<style lang="scss" scoped>
+  html,
+  body,
+  main {
+    // height: 100%;
+    // width: 100%;
+    position: relative;
+
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+  }
+
+  .menu {
+    // display: flex;
+    // flex-direction: column;
+    margin-top: 20vh;
+    counter-reset: menucounter;
+
+    &__item {
+      z-index: 1;
+      padding: 0.75rem 1rem;
+      padding-left: 25vw;
+
+      display: flex;
+      align-items: center;
+
+      cursor: pointer;
+      position: relative;
+
+      &::before {
+        counter-increment: menucounter;
+        content: counters(menucounter, ".", decimal-leading-zero);
+
+        position: absolute;
+        left: 0;
+
+        padding-block: 0.75rem;
+        padding-inline-start: 10px;
+
+        border-inline-start: 3px solid black;
+
+        transition: all 0.3s ease-in-out;
+        opacity: 0;
+
+        font-weight: 700;
+        font-size: 0.75rem;
+      }
+
+      &-text {
+        &inner {
+          font-family: "Bodoni Moda", serif;
+          font-size: 3.5rem;
+          text-transform: uppercase;
+        }
+      }
+
+      &-sub {
+        position: relative;
+        height: 100%;
+        padding-left: 2rem;
+        margin-left: 1.5rem;
+        opacity: 0;
+
+        transition: all 0.3s ease-in-out;
+
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 0.75rem;
+
+        &::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+
+          height: 325%;
+          width: 1px;
+          background-color: black;
+          transform: translateY(-35%) rotate(25deg);
+        }
+      }
+
+      .hover-reveal {
+        position: absolute;
+        z-index: -1;
+        width: 220px;
+        height: 320px;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        opacity: 0;
+
+        transition: all 0.3s ease-in-out;
+
+        &__inner {
+          overflow: hidden;
+        }
+
+        &__inner,
+        &__img {
+          width: 100%;
+          height: 100%;
+          position: relative;
+        }
+
+        &__img {
+          background-size: cover;
+          // background-position: 50% 50%;
+          background-position: center;
+        }
+      }
+
+      &:hover {
+        &::before {
+          opacity: 1;
+          padding-inline-start: 15px;
+        }
+
+        .menu__item-text {
+          &inner {
+            color: crimson;
+          }
+        }
+
+        .menu__item-sub {
+          opacity: 1;
+          transform: translateX(20px);
+        }
+
+        .hover-reveal {
+          opacity: 1;
+        }
+      }
+    }
+  }
+</style>
+
+<Layout title="Image Hover Menu">
+  <main>
+    <div class="menu">
+      {
+        menuLinks.map((item, index) => (
+          <div class={`menu__item`}>
+            <span class="menu__item-text">
+              <span class="menu__item-textinner">{item.label}</span>
+            </span>
+            <span class="menu__item-sub">Milan Fashion Week 2023</span>
+            <div class="hover-reveal">
+              <div class="hover-reveal__inner">
+                <div
+                  class="hover-reveal__img"
+                  style={`background-image: url(${item.image});`}
+                />
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </main>
+</Layout>
+
+<script></script>
