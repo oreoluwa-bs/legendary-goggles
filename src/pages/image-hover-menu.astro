@@ -120,6 +120,7 @@ const menuLinks = [
           font-family: "Bodoni Moda", serif;
           font-size: 3.5rem;
           text-transform: uppercase;
+          display: inline-block;
         }
       }
 
@@ -159,7 +160,7 @@ const menuLinks = [
         pointer-events: none;
         opacity: 0;
 
-        transition: all 0.3s ease-in-out;
+        // transition: all 0.3s ease-in-out;
 
         &__inner {
           overflow: hidden;
@@ -196,9 +197,9 @@ const menuLinks = [
           transform: translateX(20px);
         }
 
-        .hover-reveal {
-          opacity: 1;
-        }
+        // .hover-reveal {
+        //   opacity: 1;
+        // }
       }
     }
   }
@@ -209,7 +210,7 @@ const menuLinks = [
     <div class="menu">
       {
         menuLinks.map((item, index) => (
-          <div class={`menu__item`}>
+          <div class="menu__item" data-img={item.image}>
             <span class="menu__item-text">
               <span class="menu__item-textinner">{item.label}</span>
             </span>
@@ -229,4 +230,9 @@ const menuLinks = [
   </main>
 </Layout>
 
-<script></script>
+<script>
+  import { MenuHover } from "~/app/menu-hover";
+
+  const menuu = document.querySelector<HTMLElement>(".menu")!;
+  const menu = new MenuHover(menuu, menuu.querySelectorAll(".menu__item"));
+</script>
