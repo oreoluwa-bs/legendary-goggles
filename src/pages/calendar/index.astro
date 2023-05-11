@@ -1,0 +1,106 @@
+---
+import Layout from "~/layouts/Layout.astro";
+export const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+---
+
+<style lang="scss" global>
+  main {
+    margin: auto;
+    padding: 1.5rem;
+    max-width: 60ch;
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0;
+  }
+
+  .calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .calendar-week-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .calendar-day {
+    aspect-ratio: 1 /1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(128, 128, 128, 0.139);
+
+    &:not([data-currentMonth="true"]) {
+      opacity: 0.25;
+    }
+  }
+</style>
+
+<Layout title="Calendar + Scheduler">
+  <main>
+    <div class="calendar-days" style="padding-bottom: 0.5rem;">
+      {weekDays.map((day) => <div class="calendar-week-header">{day}</div>)}
+    </div>
+    <div id="calendar" class="calendar-days"></div>
+  </main>
+</Layout>
+
+<script>
+  import {
+    startOfWeek,
+    startOfDay,
+    addDays,
+    eachDayOfInterval,
+    startOfMonth,
+    endOfMonth,
+    eachWeekOfInterval,
+    isThisMonth,
+  } from "date-fns";
+
+  const calendarContainer = document.querySelector<HTMLElement>("#calendar");
+
+  // Create Calendar days
+
+  /**
+   * Get days of the week
+   */
+  export function takeWeek(start = new Date()) {
+    let date = startOfWeek(startOfDay(start));
+
+    const week = eachDayOfInterval({ start: date, end: addDays(date, 6) });
+    return week;
+  }
+
+  function takeMonth(start = new Date()) {
+    let month: Date[][] = [];
+    let date = start;
+
+    let monthStart = startOfMonth(date);
+    let monthEnd = endOfMonth(date);
+
+    let weeks = eachWeekOfInterval({ start: monthStart, end: monthEnd });
+
+    weeks.forEach((week) => {
+      month.push(takeWeek(week));
+    });
+
+    return month;
+  }
+
+  let currMonth = takeMonth();
+
+  currMonth.flat(1).forEach((day) => {
+    const div = document.createElement("div");
+    div.classList.add("calendar-day");
+    div.innerHTML = day.getDate().toString();
+
+    if (isThisMonth(day)) {
+      div.setAttribute("data-currentMonth", "true");
+    }
+
+    calendarContainer?.append(div);
+  });
+</script>
