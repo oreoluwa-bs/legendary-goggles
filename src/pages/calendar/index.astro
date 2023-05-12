@@ -1,13 +1,13 @@
 ---
 import Layout from "~/layouts/Layout.astro";
-export const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+// export const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 ---
 
-<style lang="scss" global>
+<style lang="scss" is:global>
   main {
     margin: auto;
     padding: 1.5rem;
-    max-width: 60ch;
+    max-width: 1500px;
   }
   h1 {
     font-size: 3rem;
@@ -15,9 +15,25 @@ export const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     margin: 0;
   }
 
-  .calendar-days {
+  .calendar {
+    display: flex;
+  }
+
+  .calendar-week {
+    flex: 1;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    border: 1px solid rgba(128, 128, 128, 0.139);
+
+    & &-head {
+      border: 1px solid rgba(128, 128, 128, 0.139);
+      border-top: 0;
+      padding: 0.5rem;
+    }
+  }
+
+  .calendar-time {
+    align-self: flex-end;
   }
 
   .calendar-week-header {
@@ -27,24 +43,81 @@ export const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   }
 
   .calendar-day {
-    aspect-ratio: 1 /1;
-    display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(128, 128, 128, 0.139);
+    // border: 1px solid rgba(128, 128, 128, 0.139);
+    // border-radius: 900px;
 
     &:not([data-currentMonth="true"]) {
       opacity: 0.25;
     }
+
+    &.calendar-current-day {
+      // background-color: crimson;
+      // color: white;
+      .calendar-week-head {
+        color: crimson;
+      }
+    }
+  }
+
+  .day {
+    &-num {
+      font-size: larger;
+    }
+    &-hour-span {
+      height: 80px;
+    }
+
+    &-hour-slot {
+      flex: 1;
+      border-bottom: 1px dashed;
+      border-right: 1px solid;
+      border-color: rgba(128, 128, 128, 0.139);
+      transition: all 0.1s linear;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.139);
+      }
+    }
+  }
+
+  .day-event-list {
+    position: relative;
+    z-index: 0;
+  }
+  .day-events {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    // z-index: -1;
+    pointer-events: none;
+  }
+  .day-event {
+    position: absolute;
+    background-color: cadetblue;
+    color: white;
+    border-radius: 3px;
+    padding: 0.5rem;
+    height: 40px;
+    left: 0;
+    width: 100%;
+    pointer-events: all;
   }
 </style>
 
 <Layout title="Calendar + Scheduler">
   <main>
-    <div class="calendar-days" style="padding-bottom: 0.5rem;">
+    <!-- <div class="calendar-days" style="padding-bottom: 0.5rem;">
       {weekDays.map((day) => <div class="calendar-week-header">{day}</div>)}
+    </div> -->
+    <div id="calendar" class="calendar">
+      <div id="calendar-time-list" class="calendar-time">
+        <!-- <div></div> -->
+      </div>
+      <div id="calendar-week" class="calendar-week"></div>
     </div>
-    <div id="calendar" class="calendar-days"></div>
   </main>
 </Layout>
 
@@ -58,9 +131,18 @@ export const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     endOfMonth,
     eachWeekOfInterval,
     isThisMonth,
+    isToday,
+    format,
+    eachHourOfInterval,
+    endOfDay,
   } from "date-fns";
 
   const calendarContainer = document.querySelector<HTMLElement>("#calendar");
+  const calendarTimeContainer = calendarContainer?.querySelector(
+    "#calendar-time-list"
+  );
+  const calendarWeekContainer =
+    calendarContainer?.querySelector("#calendar-week");
 
   // Create Calendar days
 
@@ -90,17 +172,74 @@ export const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     return month;
   }
 
-  let currMonth = takeMonth();
+  const hoursInADay = [...new Array(24)].map((_, ind) => ind);
 
-  currMonth.flat(1).forEach((day) => {
+  hoursInADay.forEach((hur) => {
+    const div = document.createElement("div");
+    div.classList.add("day-hour-span");
+
+    div.innerHTML = `${hur.toString().padStart(2, "0")}`;
+
+    div.style.width = "40px";
+
+    calendarTimeContainer?.append(div);
+  });
+
+  let currentWeek = takeWeek();
+  currentWeek.flat(1).forEach((day, index) => {
+    // const hoursInADay = eachHourOfInterval({
+    //   start: startOfDay(day),
+    //   end: endOfDay(day),
+    // });
+
+    let dayHour = hoursInADay.map((hur) => {
+      return `<div class='day-hour-span' style="display:flex; flex-direction:column;" data-hour=${hur
+        .toString()
+        .padStart(2, "0")}>
+        <div class='day-hour-slot' style="flex:1;"></div>
+        <div class=day-hour-slot style="flex:1;"></div>
+        </div>`;
+    });
+
     const div = document.createElement("div");
     div.classList.add("calendar-day");
-    div.innerHTML = day.getDate().toString();
+    div.innerHTML = `
+    <div>
+      <div class='calendar-week-head'>
+    <div class='day-num'>${day.getDate().toString().padStart(2, "0")}</div>
+    <div class='day-text'>
+      ${new Intl.DateTimeFormat("en", {
+        weekday: "long",
+      }).format(day)}</div>
+      </div>
+      <div class='day-event-list'>
+
+        <div class='day-events'>
+         ${
+           index === 3
+             ? `<div class='day-event' draggable='true'>
+            Meeting.
+            </div>`
+             : ""
+         }
+          </div>
+
+        ${dayHour.join("")}
+
+      </div>
+      </div>
+    `;
 
     if (isThisMonth(day)) {
       div.setAttribute("data-currentMonth", "true");
     }
 
-    calendarContainer?.append(div);
+    // div.draggable = true;
+
+    if (isToday(day)) {
+      div.classList.add("calendar-current-day");
+    }
+
+    calendarWeekContainer?.append(div);
   });
 </script>
