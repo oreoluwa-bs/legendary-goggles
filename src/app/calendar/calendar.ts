@@ -60,23 +60,23 @@ export class Calendar {
     el: HTMLElement,
     events = [
       {
-        startDate: new Date(2023, 4, 11, 20, 17),
-        endDate: new Date(2023, 4, 11, 23, 17),
+        startDate: new Date(2023, 4, 15, 20, 17),
+        endDate: new Date(2023, 4, 15, 23, 17),
         name: "Event One",
       },
       {
-        startDate: new Date(2023, 4, 12, 15, 0),
-        endDate: new Date(2023, 4, 12, 16, 0),
+        startDate: new Date(2023, 4, 18, 15, 0),
+        endDate: new Date(2023, 4, 18, 16, 0),
         name: "Event Two",
       },
       {
-        startDate: new Date(2023, 4, 11, 20, 17),
-        endDate: new Date(2023, 4, 11, 21, 0),
+        startDate: new Date(2023, 4, 14, 20, 17),
+        endDate: new Date(2023, 4, 14, 21, 0),
         name: "Event Three",
       },
       {
-        startDate: new Date(2023, 4, 7, 20, 17),
-        endDate: new Date(2023, 4, 8, 22, 17),
+        startDate: new Date(2023, 4, 19, 20, 17),
+        endDate: new Date(2023, 4, 20, 22, 17),
         name: "Event 8",
       },
     ]
@@ -100,6 +100,7 @@ export class Calendar {
     this.events = events;
 
     this.render();
+    this.renderTimeIndicator();
   }
 
   private get getWeek() {
@@ -112,7 +113,10 @@ export class Calendar {
       const div = document.createElement("div");
       div.classList.add("day-hour-span");
 
-      div.innerHTML = `${hour.toString().padStart(2, "0")}`;
+      const value = `${hour.toString().padStart(2, "0")}`;
+      div.innerHTML = value;
+
+      div.setAttribute("data-hour", value);
 
       this.DOM.timeContainer.append(div);
     });
@@ -170,6 +174,51 @@ export class Calendar {
     });
 
     this.events.push(event);
+  }
+
+  renderTimeIndicator() {
+    const currDate = new Date();
+    const hour = currDate.getHours();
+    // const hour = "15";
+    const min = currDate.getMinutes();
+
+    const hourSlot = this.DOM.timeContainer.querySelector(
+      `[data-hour='${hour.toString().padStart(2, "0")}']`
+    )!;
+    // const daySlot = this.DOM.weekContainer.querySelector(
+    //   ".calendar-current-day"
+    // )!;
+    const daySlot =
+      this.DOM.weekContainer.querySelectorAll(".calendar-day")[3]!;
+
+    const pos = {
+      start: hourSlot.getBoundingClientRect(),
+
+      day: daySlot.getBoundingClientRect(),
+
+      container: this.DOM.container.getBoundingClientRect(),
+    };
+
+    const fractal = {
+      start: ((min * 50) / 30 / 100) * pos.start.height,
+    };
+
+    const div = document.createElement("div");
+    div.classList.add("time-indicator");
+
+    div.style.top = `${
+      window.scrollY + pos.start.top - pos.start.height - 5 + fractal.start
+    }px`;
+
+    if (daySlot) {
+      div.style.width = `calc(${
+        pos.day.right - pos.container.left + 5
+      }px - ${3}rem)`;
+
+      div.style.setProperty("--mainWidth", pos.day.width + "px");
+    }
+
+    this.DOM.weekContainer.append(div);
   }
 }
 
