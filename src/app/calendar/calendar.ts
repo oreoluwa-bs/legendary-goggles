@@ -54,6 +54,7 @@ export class Calendar {
   };
   date = new Date();
   events: CalendarEvent[] = [];
+  calendarDays: CalendarDay[] = [];
 
   constructor(
     el: HTMLElement,
@@ -97,6 +98,8 @@ export class Calendar {
 
     this.DOM = { wrapper: el, container, timeContainer, weekContainer };
     this.events = events;
+
+    this.render();
   }
 
   private get getWeek() {
@@ -104,6 +107,7 @@ export class Calendar {
   }
 
   render() {
+    this.calendarDays = [];
     hoursInADay.forEach((hour) => {
       const div = document.createElement("div");
       div.classList.add("day-hour-span");
@@ -119,9 +123,10 @@ export class Calendar {
           isSameDay(weekDay, day.startDate) || isSameDay(weekDay, day.endDate)
       );
       const calDay = new CalendarDay(weekDay, events);
+      this.calendarDays.push(calDay);
       this.DOM.weekContainer.append(calDay.render());
       setTimeout(() => {
-        calDay.addEvents();
+        calDay.renderEvents();
       }, 200);
     });
 
@@ -152,10 +157,24 @@ export class Calendar {
     });
     this.DOM.wrapper.prepend(weekHeading);
   }
+
+  addEvent(event: CalendarEvent) {
+    const days = this.calendarDays.filter((day) => {
+      return (
+        isSameDay(day.day, event.startDate) || isSameDay(day.day, event.endDate)
+      );
+    });
+
+    days.forEach((day) => {
+      day.addEvent(event);
+    });
+
+    this.events.push(event);
+  }
 }
 
 class CalendarDay {
-  protected day: Date;
+  readonly day: Date;
   protected events: CalendarEvent[] = [];
   DOM: { wrapper?: HTMLElement } = {};
   colors = [
@@ -217,7 +236,7 @@ class CalendarDay {
     return div;
   }
 
-  addEvents() {
+  renderEvents() {
     // const eventsMap = new Map<string,CalendarEvent[]>();
     const eventsMap = this.events.reduce((prev, curr) => {
       const startHour = curr.startDate.getHours().toString().padStart(2, "0");
@@ -300,6 +319,21 @@ class CalendarDay {
     this.DOM.wrapper!.querySelector(".day-event-list")!.innerHTML = v
       .flat(1)
       .join("");
+  }
+
+  addEvent(event: CalendarEvent) {
+    this.events.push(event);
+    this.renderEvents();
+  }
+
+  removeEvent(event: CalendarEvent, index: number) {
+    this.events = this.events.filter((even, ind) => {
+      // // Change to Id
+      // return event.name !
+      return ind !== index;
+    });
+
+    this.renderEvents();
   }
 }
 

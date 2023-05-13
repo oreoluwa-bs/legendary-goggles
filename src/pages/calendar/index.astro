@@ -128,5 +128,13 @@ import Layout from "~/layouts/Layout.astro";
   const calendarContainer = document.querySelector<HTMLElement>("#calendar")!;
 
   const ad = new Calendar(calendarContainer);
-  ad.render();
+
+  // test to add event
+  // setTimeout(() => {
+  //   ad.addEvent({
+  //     startDate: new Date(2023, 4, 10, 8, 0),
+  //     endDate: new Date(2023, 4, 10, 10, 0),
+  //     name: "New Event",
+  //   });
+  // }, 5000);
 </script>
