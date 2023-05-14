@@ -185,11 +185,11 @@ export class Calendar {
     const hourSlot = this.DOM.timeContainer.querySelector(
       `[data-hour='${hour.toString().padStart(2, "0")}']`
     )!;
-    // const daySlot = this.DOM.weekContainer.querySelector(
-    //   ".calendar-current-day"
-    // )!;
-    const daySlot =
-      this.DOM.weekContainer.querySelectorAll(".calendar-day")[3]!;
+    const daySlot = this.DOM.weekContainer.querySelector(
+      ".calendar-current-day"
+    )!;
+    // const daySlot =
+    //   this.DOM.weekContainer.querySelectorAll(".calendar-day")[3]!;
 
     const pos = {
       start: hourSlot.getBoundingClientRect(),
