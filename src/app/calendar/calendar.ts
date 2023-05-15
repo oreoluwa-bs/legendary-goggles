@@ -125,9 +125,8 @@ export class Calendar {
       this.DOM.timeContainer.append(div);
     });
 
-    const existingHeading = document
-      .querySelector(".calendar-heading")
-      ?.remove();
+    // remove existing header
+    document.querySelector(".calendar-heading")?.remove();
 
     const weekHeading = document.createElement("div");
     weekHeading.classList.add("calendar-heading");
