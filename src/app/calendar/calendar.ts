@@ -53,6 +53,7 @@ export class Calendar {
     timeContainer: HTMLElement;
     weekContainer: HTMLElement;
     weekHeading: HTMLElement;
+    toolbar: HTMLElement;
   };
   date = new Date();
   events: CalendarEvent[] = [];
@@ -106,12 +107,18 @@ export class Calendar {
     el.append(weekHeading);
     el.append(container);
 
+    const toolbar = document.querySelector<HTMLElement>(".calendar-toolbar")!;
+    const month = document.createElement("span");
+    month.classList.add("calendar-month-heading");
+    toolbar.append(month);
+
     this.DOM = {
       wrapper: el,
       container,
       timeContainer,
       weekContainer,
       weekHeading,
+      toolbar,
     };
     this.events = events;
 
@@ -172,6 +179,13 @@ export class Calendar {
       calDay.renderEvents();
       // }, 200);
     });
+
+    // set toolbar title
+    const month = this.DOM.toolbar.querySelector(".calendar-month-heading")!;
+    month.innerHTML = new Intl.DateTimeFormat("en", {
+      month: "long",
+      year: "numeric",
+    }).format(this.date);
   }
 
   addEvent(event: CalendarEvent) {
