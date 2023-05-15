@@ -123,7 +123,6 @@ export class Calendar {
     this.events = events;
 
     this.render();
-    this.renderTimeIndicator();
   }
 
   private get getWeek() {
@@ -186,6 +185,8 @@ export class Calendar {
       month: "long",
       year: "numeric",
     }).format(this.date);
+
+    this.renderTimeIndicator();
   }
 
   addEvent(event: CalendarEvent) {
@@ -213,14 +214,14 @@ export class Calendar {
     )!;
     const daySlot = this.DOM.weekContainer.querySelector(
       ".calendar-current-day"
-    )!;
+    );
     // const daySlot =
     //   this.DOM.weekContainer.querySelectorAll(".calendar-day")[3]!;
 
     const pos = {
       start: hourSlot.getBoundingClientRect(),
 
-      day: daySlot.getBoundingClientRect(),
+      day: daySlot?.getBoundingClientRect(),
 
       container: this.DOM.container.getBoundingClientRect(),
     };
@@ -233,10 +234,15 @@ export class Calendar {
     div.classList.add("time-indicator");
 
     div.style.top = `${
-      window.scrollY + pos.start.top - pos.start.height - 5 + fractal.start
+      window.scrollY +
+      pos.start.top -
+      pos.start.height -
+      5 +
+      fractal.start +
+      this.DOM.wrapper.scrollTop
     }px`;
 
-    if (daySlot) {
+    if (pos.day) {
       div.style.width = `calc(${
         pos.day.right - pos.container.left + 5
       }px - ${3}rem)`;
@@ -245,6 +251,8 @@ export class Calendar {
     }
 
     this.DOM.weekContainer.append(div);
+
+    div.scrollIntoView({ block: "center" });
   }
 
   prevWeek() {
