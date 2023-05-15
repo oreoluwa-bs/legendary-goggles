@@ -65,9 +65,9 @@ import Layout from "~/layouts/Layout.astro";
     // border: 1px solid rgba(128, 128, 128, 0.139);
     // border-radius: 900px;
 
-    &:not([data-currentMonth="true"]) {
-      opacity: 0.25;
-    }
+    // &:not([data-currentMonth="true"]) {
+    //   opacity: 0.25;
+    // }
   }
 
   .day {
@@ -155,6 +155,8 @@ import Layout from "~/layouts/Layout.astro";
     <!-- <div class="calendar-days" style="padding-bottom: 0.5rem;">
       {weekDays.map((day) => <div class="calendar-week-header">{day}</div>)}
     </div> -->
+    <button id="prev-btn">Previous Week</button>
+    <button id="next-btn" onclick="handlePrevWeek">Next Week</button>
     <div id="calendar"></div>
   </main>
 </Layout>
@@ -174,4 +176,14 @@ import Layout from "~/layouts/Layout.astro";
   //     name: "New Event",
   //   });
   // }, 5000);
+
+  const nextBtn = document.querySelector<HTMLButtonElement>("#next-btn");
+  const prevBtn = document.querySelector<HTMLButtonElement>("#prev-btn");
+
+  nextBtn?.addEventListener("click", () => {
+    ad.nextWeek();
+  });
+  prevBtn?.addEventListener("click", () => {
+    ad.prevWeek();
+  });
 </script>

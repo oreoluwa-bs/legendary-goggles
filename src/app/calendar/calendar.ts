@@ -9,6 +9,7 @@ import {
   startOfDay,
   startOfMonth,
   startOfWeek,
+  subDays,
 } from "date-fns";
 
 /**
@@ -109,6 +110,9 @@ export class Calendar {
 
   render() {
     this.calendarDays = [];
+    this.DOM.timeContainer.innerHTML = "";
+    this.DOM.weekContainer.innerHTML = "";
+
     hoursInADay.forEach((hour) => {
       const div = document.createElement("div");
       div.classList.add("day-hour-span");
@@ -121,18 +125,9 @@ export class Calendar {
       this.DOM.timeContainer.append(div);
     });
 
-    this.getWeek.forEach((weekDay) => {
-      const events = this.events.filter(
-        (day) =>
-          isSameDay(weekDay, day.startDate) || isSameDay(weekDay, day.endDate)
-      );
-      const calDay = new CalendarDay(weekDay, events);
-      this.calendarDays.push(calDay);
-      this.DOM.weekContainer.append(calDay.render());
-      setTimeout(() => {
-        calDay.renderEvents();
-      }, 200);
-    });
+    const existingHeading = document
+      .querySelector(".calendar-heading")
+      ?.remove();
 
     const weekHeading = document.createElement("div");
     weekHeading.classList.add("calendar-heading");
@@ -159,7 +154,21 @@ export class Calendar {
       }
       weekHeading.append(div);
     });
+
     this.DOM.wrapper.prepend(weekHeading);
+
+    this.getWeek.forEach((weekDay) => {
+      const events = this.events.filter(
+        (day) =>
+          isSameDay(weekDay, day.startDate) || isSameDay(weekDay, day.endDate)
+      );
+      const calDay = new CalendarDay(weekDay, events);
+      this.calendarDays.push(calDay);
+      this.DOM.weekContainer.append(calDay.render());
+      // setTimeout(() => {
+      calDay.renderEvents();
+      // }, 200);
+    });
   }
 
   addEvent(event: CalendarEvent) {
@@ -219,6 +228,24 @@ export class Calendar {
     }
 
     this.DOM.weekContainer.append(div);
+  }
+
+  prevWeek() {
+    const currweekStart = this.getWeek[0];
+
+    // subtract
+    this.date = subDays(currweekStart, 2);
+
+    this.render();
+  }
+
+  nextWeek() {
+    const currweekStart = this.getWeek[this.getWeek.length - 1];
+
+    // add
+    this.date = addDays(currweekStart, 2);
+
+    this.render();
   }
 }
 
