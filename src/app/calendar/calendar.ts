@@ -135,6 +135,9 @@ export class Calendar {
     this.DOM.weekContainer.innerHTML = "";
     this.DOM.weekHeading.innerHTML = "<div></div>";
 
+    // this is because the timer top is wrong so we scroll to the top on every rerender and scroll back to the time
+    this.DOM.wrapper.scrollTo({ top: 0 });
+
     hoursInADay.forEach((hour) => {
       const div = document.createElement("div");
       div.classList.add("day-hour-span");
@@ -186,7 +189,9 @@ export class Calendar {
       year: "numeric",
     }).format(this.date);
 
-    this.renderTimeIndicator();
+    {
+      this.renderTimeIndicator();
+    }
   }
 
   addEvent(event: CalendarEvent) {
