@@ -348,10 +348,14 @@ class CalendarDay {
               `.day-time-list [data-hour="${endHour}"]`
             )!,
           };
+          const mainContainer =
+            document.querySelector<HTMLElement>(`.calendar`)!;
 
           const pos = {
             start: hourSlot.start.getBoundingClientRect(),
             end: hourSlot.end.getBoundingClientRect(),
+
+            mainContainer: mainContainer.getBoundingClientRect()!,
           };
 
           const fractal = {
@@ -371,7 +375,8 @@ class CalendarDay {
             pos.start.top -
             pos.start.height -
             5 +
-            fractal.start
+            fractal.start +
+            mainContainer?.scrollTop
           }px;height:${Math.abs(
             window.scrollY +
               pos.end.top -
