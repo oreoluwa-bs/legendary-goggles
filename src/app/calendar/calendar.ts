@@ -52,6 +52,7 @@ export class Calendar {
     container: HTMLElement;
     timeContainer: HTMLElement;
     weekContainer: HTMLElement;
+    weekHeading: HTMLElement;
   };
   date = new Date();
   events: CalendarEvent[] = [];
@@ -89,15 +90,29 @@ export class Calendar {
     const timeContainer = document.createElement("div");
     timeContainer.classList.add("day-timelist");
 
+    const weekHeading = document.createElement("div");
+    weekHeading.classList.add("calendar-heading");
+    const blank = document.createElement("div");
+    weekHeading.append(blank);
+    weekHeading.style.display = "grid";
+    weekHeading.style.gridTemplateColumns = "40px repeat(7,1fr)";
+
     const weekContainer = document.createElement("div");
     weekContainer.classList.add("calendar-week");
 
     container.append(timeContainer);
     container.append(weekContainer);
 
+    el.append(weekHeading);
     el.append(container);
 
-    this.DOM = { wrapper: el, container, timeContainer, weekContainer };
+    this.DOM = {
+      wrapper: el,
+      container,
+      timeContainer,
+      weekContainer,
+      weekHeading,
+    };
     this.events = events;
 
     this.render();
@@ -112,6 +127,7 @@ export class Calendar {
     this.calendarDays = [];
     this.DOM.timeContainer.innerHTML = "";
     this.DOM.weekContainer.innerHTML = "";
+    this.DOM.weekHeading.innerHTML = "<div></div>";
 
     hoursInADay.forEach((hour) => {
       const div = document.createElement("div");
@@ -124,16 +140,6 @@ export class Calendar {
 
       this.DOM.timeContainer.append(div);
     });
-
-    // remove existing header
-    document.querySelector(".calendar-heading")?.remove();
-
-    const weekHeading = document.createElement("div");
-    weekHeading.classList.add("calendar-heading");
-    const blank = document.createElement("div");
-    weekHeading.append(blank);
-    weekHeading.style.display = "grid";
-    weekHeading.style.gridTemplateColumns = "40px repeat(7,1fr)";
 
     this.getWeek.forEach((weekDay) => {
       const dayOfMonth = weekDay.getDate().toString();
@@ -151,10 +157,8 @@ export class Calendar {
       if (isToday(weekDay)) {
         div.classList.add("calendar-current-day");
       }
-      weekHeading.append(div);
+      this.DOM.weekHeading.append(div);
     });
-
-    this.DOM.wrapper.prepend(weekHeading);
 
     this.getWeek.forEach((weekDay) => {
       const events = this.events.filter(

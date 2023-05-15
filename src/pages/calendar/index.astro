@@ -155,9 +155,15 @@ import Layout from "~/layouts/Layout.astro";
     <!-- <div class="calendar-days" style="padding-bottom: 0.5rem;">
       {weekDays.map((day) => <div class="calendar-week-header">{day}</div>)}
     </div> -->
-    <button id="prev-btn">Previous Week</button>
-    <button id="next-btn" onclick="handlePrevWeek">Next Week</button>
-    <div id="calendar"></div>
+
+    <div id="calendar">
+      <div class="calendar-toolbar">
+        <div>
+          <button id="prev-btn">Previous Week</button>
+          <button id="next-btn">Next Week</button>
+        </div>
+      </div>
+    </div>
   </main>
 </Layout>
 
