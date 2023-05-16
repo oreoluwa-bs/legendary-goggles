@@ -11,6 +11,7 @@ import {
   startOfWeek,
   subDays,
 } from "date-fns";
+import { map } from "../utils";
 
 /**
  * Get days of the week
@@ -282,7 +283,7 @@ export class Calendar {
 class CalendarDay {
   readonly day: Date;
   protected events: CalendarEvent[] = [];
-  DOM: { wrapper?: HTMLElement } = {};
+  DOM: { wrapper?: HTMLElement; mainContainer?: HTMLElement } = {};
   colors = [
     "#5F9EA0", // Cadet Blue
     "#0066CC", // Royal Blue
@@ -298,6 +299,7 @@ class CalendarDay {
   constructor(day: Date, events: CalendarEvent[]) {
     this.day = day;
     this.events = events;
+    this.DOM.mainContainer = document.querySelector<HTMLElement>(`.calendar`)!;
   }
 
   render() {
@@ -339,11 +341,21 @@ class CalendarDay {
 
     this.DOM.wrapper = div;
 
+    this.addListeners();
     return div;
   }
 
   renderEvents() {
-    // const eventsMap = new Map<string,CalendarEvent[]>();
+    // const eventsMap = new Map<string, CalendarEvent[]>();
+
+    // this.events.forEach((event) => {
+    //   const startHour = event.startDate.getHours().toString().padStart(2, "0");
+    //   const endHour = event.endDate.getHours().toString().padStart(2, "0");
+    //   const existingValue = eventsMap.get(startHour) ?? [];
+
+    //   eventsMap.set(startHour, [...existingValue, event]);
+    // });
+
     const eventsMap = this.events.reduce((prev, curr) => {
       const startHour = curr.startDate.getHours().toString().padStart(2, "0");
       const endHour = curr.endDate.getHours().toString().padStart(2, "0");
@@ -375,14 +387,12 @@ class CalendarDay {
               `.day-time-list [data-hour="${endHour}"]`
             )!,
           };
-          const mainContainer =
-            document.querySelector<HTMLElement>(`.calendar`)!;
 
           const pos = {
             start: hourSlot.start.getBoundingClientRect(),
             end: hourSlot.end.getBoundingClientRect(),
 
-            mainContainer: mainContainer.getBoundingClientRect()!,
+            mainContainer: this.DOM.mainContainer?.getBoundingClientRect()!,
           };
 
           const fractal = {
@@ -403,7 +413,7 @@ class CalendarDay {
             pos.start.height -
             5 +
             fractal.start +
-            mainContainer?.scrollTop
+            (this.DOM.mainContainer?.scrollTop ?? 0)
           }px;height:${Math.abs(
             window.scrollY +
               pos.end.top -
@@ -433,7 +443,7 @@ class CalendarDay {
   }
 
   addEvent(event: CalendarEvent) {
-    this.events.push(event);
+    this.events = [...this.events, event];
     this.renderEvents();
   }
 
@@ -445,6 +455,52 @@ class CalendarDay {
     });
 
     this.renderEvents();
+  }
+
+  addListeners() {
+    this.addTimeSlotListeners();
+  }
+
+  addTimeSlotListeners() {
+    const eventList =
+      this.DOM.wrapper!.querySelector<HTMLElement>(".day-event-list");
+    const hourSlots = this.DOM.wrapper?.querySelectorAll<HTMLElement>(
+      ".day-time-list .day-hour-slot"
+    );
+
+    hourSlots?.forEach((slot) => {
+      const hourSlotWrapper = slot.parentElement;
+      const hour = hourSlotWrapper?.getAttribute("data-hour");
+
+      if (!hour || !hourSlotWrapper) return;
+
+      slot.addEventListener("mousedown", (e) => {
+        const bb = hourSlotWrapper.getBoundingClientRect();
+        const orgPos = {
+          // get percentage
+          y: map(e.clientY, bb.top, bb.bottom, 0, 100),
+        };
+
+        // ((event.startDate.getMinutes() * 50) / 30 / 100) *
+        //         pos.start.height
+
+        // add drag end
+        slot.addEventListener("mouseup", (ev) => {
+          const startDate = new Date(this.day);
+          startDate.setHours(Number(hour));
+          startDate.setMinutes((orgPos.y / 100) * 60);
+
+          const endDate = new Date(startDate);
+          endDate.setHours(Number(hour) + 2);
+
+          this.addEvent({
+            name: `New event ${this.events.length + 1}`,
+            startDate,
+            endDate,
+          });
+        });
+      });
+    });
   }
 }
 
