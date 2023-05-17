@@ -1,0 +1,265 @@
+---
+import "@fontsource/bodoni-moda";
+import Layout from "src/layouts/Layout.astro";
+---
+
+<style lang="scss">
+  html,
+  body {
+    background-color: blanchedalmond;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1 {
+    margin: 0;
+    padding: 0;
+  }
+
+  .paragraph {
+    font-family: "Bodoni Moda", serif;
+    font-weight: 300;
+    font-size: max(80px, 5vw);
+    line-height: 1.25;
+    margin: 0;
+    overflow: hidden;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+    text-overflow: clip;
+    float: left;
+
+    &--right:nth-child(2) {
+      //   margin-left: max(100px, 10vw);
+      float: right;
+    }
+  }
+  main {
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // justify-content: center;
+    // min-height: 100vh;
+    display: grid;
+    grid-template-areas: content-item;
+  }
+
+  .switch-a {
+    font-family: "Bodoni Moda", serif;
+    position: absolute;
+    right: 10vw;
+    top: 10vh;
+    cursor: pointer;
+
+    background-color: transparent;
+    border: 0;
+    font-size: 1.5rem;
+
+    &-text {
+      display: none;
+
+      &--active {
+        display: inline-block;
+      }
+    }
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  .content {
+    min-height: 100vh;
+    padding: 12rem 8vw 3rem;
+    overflow: hidden;
+    grid-area: content-item;
+
+    &:not(.content--current) {
+      opacity: 0;
+      height: 0px !important;
+      pointer-events: none;
+    }
+  }
+</style>
+
+<Layout title="Stagger Type Reveal">
+  <main>
+    <a class="switch-a">
+      <span class="switch-a-text switch-a-text--active">About</span>
+      <span class="switch-a-text">Close</span>
+    </a>
+
+    <section class="content home content--current">
+      <h1>
+        <div class="paragraph" data-splitting>Make data</div>
+        <div class="paragraph paragraph--right" data-splitting>
+          Your strength
+        </div>
+      </h1>
+    </section>
+
+    <section class="content about">
+      <p class="paragraph" data-splitting>Johnathan Flynn is</p>
+      <p class="paragraph paragraph--right" data-splitting>a Salt Lake City</p>
+      <p class="paragraph" data-splitting>
+        based <em>data</em> and <em>social</em>
+      </p>
+      <p class="paragraph" data-splitting>engineer</p>
+
+      <figure>
+        <img
+          src="https://plus.unsplash.com/premium_photo-1681223964644-d76b97e65ca9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
+          alt="Some image"
+        />
+        <!-- <figcaption>
+          We are here face to face with a crucial point in analytic realism.
+          Realism argues that we have no alternative except either to regard
+          analysis as falsifying, and thus commit ourselves to distrust of
+          science as an organ of knowledge.
+        </figcaption> -->
+      </figure>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  import "splitting/dist/splitting.css";
+  import "splitting/dist/splitting-cells.css";
+  import Splitting from "splitting";
+  import gsap from "gsap";
+
+  Splitting(undefined);
+
+  let DOM = {
+    content: {
+      home: {
+        section: document.querySelector("section.home")!,
+        get chars() {
+          return this.section.querySelectorAll(
+            ".paragraph .word > .char, .whitespace"
+          )!;
+        },
+        isVisible: true,
+      },
+      about: {
+        section: document.querySelector("section.about")!,
+        get picture() {
+          return this.section.querySelector("figure");
+        },
+        get chars() {
+          return this.section.querySelectorAll(
+            ".paragraph .word > .char, .whitespace"
+          )!;
+        },
+        isVisible: false,
+      },
+    },
+    links: {
+      toggle: document.querySelector(".switch-a")!,
+      get stateElement() {
+        return this.toggle.children;
+      },
+    },
+  };
+
+  const timelineSettings = {
+    staggerValue: 0.014,
+    charsDuration: 0.5,
+  };
+
+  const timeline = gsap.timeline({ paused: true });
+
+  timeline
+    .addLabel("start")
+    .to(
+      DOM.content.home.chars,
+      {
+        duration: timelineSettings.charsDuration,
+        ease: "Power3.easeIn",
+        y: "-100%",
+        opacity: 0,
+        stagger: timelineSettings.staggerValue,
+      },
+      "start"
+    )
+    .addLabel("switchtime")
+    .add(() => {
+      DOM.content.home.section.classList.toggle("content--current");
+      DOM.content.about.section.classList.toggle("content--current");
+    });
+  timeline
+    .to(
+      document.body,
+      {
+        duration: 0.8,
+        ease: "Power1.easeInOut",
+        backgroundColor: "#c3b996",
+      },
+      `switchtime-=${timelineSettings.charsDuration}/4`
+    )
+    .set(
+      DOM.content.about.chars,
+      {
+        y: "100%",
+      },
+      "switchtime"
+    )
+    .set(
+      DOM.content.about.picture,
+      {
+        y: "40%",
+        rotation: -4,
+        opacity: 0,
+      },
+      "switchtime"
+    )
+    .to(
+      DOM.content.about.chars,
+      {
+        duration: timelineSettings.charsDuration,
+        ease: "Power3.easeOut",
+        y: "0%",
+        stagger: timelineSettings.staggerValue,
+      },
+      "switchtime"
+    )
+    .to(
+      DOM.content.about.picture,
+      {
+        duration: 0.8,
+        ease: "Power3.easeOut",
+        y: "0%",
+        opacity: 1,
+        rotation: 0,
+      },
+      "switchtime+=0.6"
+    );
+
+  const switchContent = () => {
+    DOM.links.stateElement[0].classList[
+      DOM.content.about.isVisible ? "add" : "remove"
+    ]("switch-a-text--current");
+    DOM.links.stateElement[1].classList[
+      DOM.content.about.isVisible ? "remove" : "add"
+    ]("switch-a-text--current");
+    timeline[DOM.content.about.isVisible ? "reverse" : "play"]();
+
+    if (DOM.content.about.isVisible) {
+      window.history.pushState(
+        {},
+        // @ts-ignore
+        null,
+        `${window.location.href.replace("/about", "")}`
+      );
+    } else {
+      // @ts-ignore
+      window.history.pushState({}, null, `${window.location.href}/about`);
+    }
+
+    DOM.content.about.isVisible = !DOM.content.about.isVisible;
+    DOM.content.home.isVisible = !DOM.content.about.isVisible;
+  };
+
+  DOM.links.toggle.addEventListener("click", () => switchContent());
+</script>

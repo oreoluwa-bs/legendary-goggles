@@ -16,10 +16,12 @@
     "date-fns": "^2.30.0",
     "gsap": "^3.11.5",
     "imagesloaded": "^5.0.0",
-    "sass": "^1.62.1"
+    "sass": "^1.62.1",
+    "splitting": "^1.0.6"
   },
   "devDependencies": {
     "@types/imagesloaded": "^4.1.2",
+    "@types/splitting": "^1.0.1",
     "prettier": "^2.8.8",
     "prettier-plugin-astro": "^0.8.0"
   }
