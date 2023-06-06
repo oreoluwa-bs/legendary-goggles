@@ -3,9 +3,10 @@ export interface Props {
   title: string;
   body: string;
   href: string;
+  url: string;
 }
 
-const { href, title, body } = Astro.props;
+const { href, title, body, url } = Astro.props;
 ---
 
 <li class="link-card">
@@ -18,11 +19,13 @@ const { href, title, body } = Astro.props;
       {body}
     </p>
   </a>
+  <a href={url}> View resource</a>
 </li>
 <style>
   .link-card {
     list-style: none;
     display: flex;
+    flex-direction: column;
     padding: 0.25rem;
     background-color: white;
     background-image: none;

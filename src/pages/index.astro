@@ -18,13 +18,20 @@ const pages = [
   {
     link: "/image-hover-menu",
     title: "Image Hover Menu",
-    body: "https://tympanus.net/codrops/2020/07/01/creating-a-menu-image-animation-on-hover/",
+    body: "",
+    url: "https://tympanus.net/codrops/2020/07/01/creating-a-menu-image-animation-on-hover/",
   },
   {
     link: "/stagger-type-reveal",
     title: "Stagger Type Reveal",
     body: "",
     url: "https://tympanus.net/codrops/2020/06/17/making-stagger-reveal-animations-for-text/",
+  },
+  {
+    link: "/scrollable-parallax",
+    title: "Scrollable Parallax",
+    body: "",
+    url: "https://tympanus.net/codrops/2020/12/01/crafting-a-scrollable-and-draggable-parallax-slider/",
   },
   {
     link: "/scrollable-parallax",
@@ -46,6 +53,7 @@ const pages = [
             href={page.link ?? ""}
             title={page.title ?? ""}
             body={page.body ?? ""}
+            url={page.url}
           />
         ))
       }
