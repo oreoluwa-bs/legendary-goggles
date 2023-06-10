@@ -1,0 +1,23 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Smooth Scroll | Basic">
+  <main></main>
+</Layout>
+
+<script>
+  import Lenis from "@studio-freight/lenis";
+
+  const lenis = new Lenis({
+    smooth: true,
+  });
+
+  function raf(time: number) {
+    lenis.raf(time);
+
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);
+</script>
