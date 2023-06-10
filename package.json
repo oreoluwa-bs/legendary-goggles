@@ -12,6 +12,7 @@
   "dependencies": {
     "@fontsource/abril-fatface": "^4.5.9",
     "@fontsource/bodoni-moda": "^4.5.10",
+    "@studio-freight/lenis": "^1.0.14",
     "astro": "^2.3.2",
     "date-fns": "^2.30.0",
     "gsap": "^3.11.5",
