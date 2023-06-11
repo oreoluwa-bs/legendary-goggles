@@ -1,9 +1,152 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+
+const contentBlocks = [
+  {
+    image: "https://tympanus.net/Development/ImagePixelLoading/img/1.jpg",
+    content: {
+      title: "DAAKO NIXIE",
+      description:
+        "INTRODUCING THE ETHEREAL MASTERPIECE, AN EPITOME OF SARTORIAL SPLENDOR AND AVANT-GARDE ELEGANCE. BEHOLD, THE BREATHTAKING EMBODIMENT OF HAUTE COUTURE OPULENCE THAT TRANSCENDS TIME AND SPACE. AS YOUR FINGERTIPS CARESS THE LUXURIOUS FABRIC, A SYMPHONY OF TACTILE DELIGHT UNFOLDS, WEAVING DREAMS INTO REALITY.",
+    },
+  },
+  {
+    image: "https://tympanus.net/Development/ImagePixelLoading/img/2.jpg",
+    content: {
+      title: "ROZEN NOVUS",
+      description:
+        "DRAPED IN CASCADES OF EXQUISITE CHIFFON, THIS VISIONARY CREATION EMBRACES THE ESSENCE OF CELESTIAL ALLURE. A CELESTIAL TAPESTRY OF CELESTIAL BODIES UNFOLDS, MERGING DELICATE SEQUINS AND CELESTIAL THREADS WITH CELESTIAL SILK, ENCAPSULATING THE WHIMSY OF STARDUST CAPTURED IN EVERY STITCH.",
+    },
+  },
+  {
+    image: "https://tympanus.net/Development/ImagePixelLoading/img/3.jpg",
+    content: {
+      title: "JADEL ARDEN",
+      description:
+        "THE SILHOUETTE, A CELESTIAL DANCE BETWEEN THE DIVINE AND THE DIVINE, CELEBRATES THE HUMAN FORM, SCULPTING CURVES WITH AN OTHERWORLDLY GRACE. EACH CONTOUR, METICULOUSLY TAILORED TO ACCENTUATE THE WEARER'S INDIVIDUALITY, WHISPERS TALES OF CELESTIAL GRACE AND UNSPOKEN DESIRES.",
+    },
+  },
+  {
+    image: "https://tympanus.net/Development/ImagePixelLoading/img/4.jpg",
+    content: {
+      title: "AZURA EXULT",
+      description:
+        "EMANATING AN AURA OF REFINED ENCHANTMENT, THE COLOR PALETTE TRANSCENDS EARTHLY CONFINES. RADIANT HUES, REMINISCENT OF AN ARTIST'S PALETTE, COLLIDE IN HARMONIOUS SYMPHONY. FROM CELESTIAL BLUES THAT EVOKE THE TRANQUIL DEPTHS OF THE COSMIC OCEAN TO THE CELESTIAL PURPLES THAT MIRROR THE TWILIGHT HUES OF DISTANT GALAXIES, EVERY SHADE RESONATES WITH THE VERY ESSENCE OF ETHEREAL BEAUTY.",
+    },
+  },
+  {
+    image: "https://tympanus.net/Development/ImagePixelLoading/img/5.jpg",
+    content: {
+      title: "QUIVO FOLIA",
+      description:
+        "MERGING HAUTE COUTURE CRAFTSMANSHIP WITH THE SPIRIT OF CELESTIAL POETRY, THIS DIVINE CREATION IS AN ODE TO INDIVIDUALITY AND AUDACITY. A TESTAMENT TO THE SYMBIOSIS BETWEEN IMAGINATION AND TECHNIQUE, IT BECKONS THE WEARER TO EMBRACE THEIR INNER DIVINITY AND EMBRACE THE CELESTIAL MAGNIFICENCE THAT RESIDES WITHIN.",
+    },
+  },
+  {
+    image: "https://tympanus.net/Development/ImagePixelLoading/img/6.jpg",
+    content: {
+      title: "NOVUS ORIEL",
+      description:
+        "PREPARE TO EMBARK ON A CELESTIAL JOURNEY OF SELF-EXPRESSION, WHERE BOUNDARIES FADE, AND POSSIBILITIES UNFOLD. THIS HAUTE COUTURE MASTERPIECE IS A CELESTIAL HYMN, AN INVITATION TO TRANSCEND THE ORDINARY AND EMBRACE THE EXTRAORDINARY. ALLOW IT TO ADORN YOUR BEING, AND EXPERIENCE THE TRANSCENDENCE THAT ONLY HAUTE COUTURE CAN BESTOW UPON THE SOUL.",
+    },
+  },
+];
 ---
 
+<style lang="scss">
+  .logo {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    stroke: #fff;
+
+    z-index: 900;
+    pointer-events: none;
+    fill: none;
+    height: 150px;
+    width: 150px;
+  }
+
+  .content {
+    position: relative;
+
+    .content__img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .content__text {
+      &-wrap {
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        color: #fff;
+        display: flex;
+        justify-content: end;
+      }
+
+      margin-top: 40vh;
+      padding: 2rem;
+
+      h2 {
+        // position: relative;
+        font-size: 10vw;
+        font-weight: 400;
+        text-align: right;
+        margin: 0;
+        line-height: 0.8;
+        max-width: 400px;
+      }
+      p {
+        font-size: 1rem;
+        text-align: right;
+        position: relative;
+        margin: 1rem 0 0 auto;
+        text-align: right;
+        max-width: 400px;
+        font-size: 0.85rem;
+      }
+    }
+  }
+</style>
+
 <Layout title="Smooth Scroll | Basic">
-  <main></main>
+  <main>
+    <svg
+      viewBox="955.38 368 268.62 271"
+      width="268.62"
+      height="271"
+      class="logo"
+      ><path
+        vector-effect="non-scaling-stroke"
+        d=" M975.38 472 L1050.38 472 C1050.38 472, 1060.38 472, 1060.38 462 L1060.38 388 C1060.38 388, 1060.38 378, 1070.38 378 L1181.6200000000001 378 C1181.6200000000001 378, 1191.6200000000001 378, 1191.6200000000001 388 L1191.6200000000001 478 C1191.6200000000001 478, 1191.6200000000001 488, 1181.6200000000001 488 L1106.62 488 C1106.62 488, 1096.62 488, 1096.62 498 L1096.62 509 C1096.62 509, 1096.62 519, 1106.62 519 L1204 519 C1204 519, 1214 519, 1214 529 L1214 619 C1214 619, 1214 629, 1204 629 L1024 629 C1024 629, 1014 629, 1014 619 L1014 592 C1014 592, 1014 582, 1004 582 L975.38 582 C975.38 582, 965.38 582, 965.38 572 L965.38 482 C965.38 482, 965.38 472, 975.38 472"
+      ></path></svg
+    >
+
+    {
+      contentBlocks.map((block) => {
+        return (
+          <section class="content">
+            <img
+              src={block.image}
+              alt={block.content.description}
+              loading="lazy"
+              class="content__img"
+            />
+            <div class="content__text-wrap">
+              <div class="content__text">
+                <h2>{block.content.title}</h2>
+                <p>{block.content.description}</p>
+              </div>
+            </div>
+          </section>
+        );
+      })
+    }
+  </main>
 </Layout>
 
 <script>
