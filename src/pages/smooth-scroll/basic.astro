@@ -88,7 +88,7 @@ const contentBlocks = [
         justify-content: end;
       }
 
-      margin-top: 40vh;
+      margin-top: 50vh;
       padding: 2rem;
 
       h2 {
@@ -151,6 +151,10 @@ const contentBlocks = [
 
 <script>
   import Lenis from "@studio-freight/lenis";
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/all";
+
+  gsap.registerPlugin(ScrollTrigger);
 
   const lenis = new Lenis({
     smooth: true,
@@ -163,4 +167,36 @@ const contentBlocks = [
   }
 
   requestAnimationFrame(raf);
+
+  lenis.on("scroll", () => {
+    ScrollTrigger.update();
+  });
+
+  // const tl = gsap.timeline({ paused: true });
+
+  // tl.to(".content__text", {
+  //   y: -200,
+  //   stagger: 1,
+  //   scrollTrigger: {
+  //     // trigger: ".content",
+  //     // start: "top top",
+  //     start: "clamp(top bottom)", // top of the trigger  hits the bottom of the viewport
+  //     scrub: true,
+  //   },
+  // });
+
+  document.querySelectorAll(".content").forEach((el, index) => {
+    const elText = el.querySelector(".content__text");
+
+    gsap.to(elText, {
+      y: -200,
+      scrollTrigger: {
+        trigger: el,
+        // start: index === 0 ? "clamp(top bottom)" : "top bottom", // top of the trigger  hits the bottom of the viewport
+        start: "top bottom", // top of the trigger  hits the bottom of the viewport
+        // end: "bottom bottom",
+        scrub: true,
+      },
+    });
+  });
 </script>
