@@ -274,7 +274,7 @@ import Layout from "../../layouts/Layout.astro";
     </section>
 
     <section class="section__two section-base">
-      <h2>Stubborn Naivety</h2>
+      <h2 data-splitting>Stubborn <br /> Naivety</h2>
       <p>
         It is in this surrender that we may find the truth of who we are, the
         essence of our being that lies just beyond the veil of illusion. We let
@@ -284,7 +284,7 @@ import Layout from "../../layouts/Layout.astro";
     </section>
 
     <section class="section__three section-base">
-      <h2>SURRENDER TO REALITY STEP INTO THE LIGHT</h2>
+      <h2>SURRENDER TO REALITY <br /> STEP INTO THE LIGHT</h2>
       <p>
         This surrender does not mean giving up, nor does it mean accepting the
         status quo. It is, in fact, quite the opposite. It is a willingness to
@@ -387,7 +387,6 @@ import Layout from "../../layouts/Layout.astro";
         // end: "center center",
         end: "center top+=20%", // corr
         scrub: true,
-        // fastScrollEnd: true,
       },
     })
     .to(
@@ -400,9 +399,63 @@ import Layout from "../../layouts/Layout.astro";
           start: "-=10%",
           end: "center center",
           scrub: true,
-          fastScrollEnd: true,
+          // fastScrollEnd: true,
         },
       },
       "start"
     );
+
+  // Section 2
+  const sectionTwoH2Chars = [
+    ...document.querySelectorAll(".section__two h2 .char"),
+  ];
+  const sectionTwoH2words = [
+    ...document.querySelectorAll(".section__two h2 .word"),
+  ];
+
+  gsap.set(".section__two h2 .word", {
+    perspective: 1000,
+    display: "inline-block",
+  });
+
+  // const ran = [65, 125, 37, 210, 77, 194, 17];
+  sectionTwoH2Chars.forEach((el, index) => {
+    gsap.set(el, {
+      "will-change": "opacity, transform",
+      opacity: 0,
+      // color: "black",
+      display: "inline-block",
+      // rotateX: index * ran[index % ran.length],
+      rotateX: () => gsap.utils.random(-120, 120),
+      z: () => gsap.utils.random(-200, 200),
+    });
+  });
+  // sectionTwoH2words.forEach((el) => {
+  // el.querySelectorAll(".char").forEach((char, index) => {
+  //   gsap.set(char, {
+  //     // color: "black",
+  //     transformStyle: "preserve-3d",
+  //     perspective: "1000px",
+  //     display: "inline-block",
+  //     // rotateX: ran[index % ran.length],
+  //     rotateX: () => gsap.utils.random(-120, 120),
+  //     // z: () => gsap.utils.random(-200,200),
+  //   });
+  // });
+  // });
+
+  gsap.to(".section__two h2 .char", {
+    rotateX: 0,
+    stagger: 0.02,
+    z: 0,
+    opacity: 1,
+    scrollTrigger: {
+      trigger: ".section__two",
+      // start: "top top+=20%",
+      // end: "bottom bottom-=100%",
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true,
+    },
+  });
 </script>
