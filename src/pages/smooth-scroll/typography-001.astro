@@ -284,7 +284,7 @@ import Layout from "../../layouts/Layout.astro";
     </section>
 
     <section class="section__three section-base">
-      <h2>SURRENDER TO REALITY <br /> STEP INTO THE LIGHT</h2>
+      <h2 data-splitting>SURRENDER TO REALITY <br /> STEP INTO THE LIGHT</h2>
       <p>
         This surrender does not mean giving up, nor does it mean accepting the
         status quo. It is, in fact, quite the opposite. It is a willingness to
@@ -453,6 +453,29 @@ import Layout from "../../layouts/Layout.astro";
       trigger: ".section__two",
       // start: "top top+=20%",
       // end: "bottom bottom-=100%",
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true,
+    },
+  });
+
+  // Section 3
+  gsap.set(".section__three .word", {
+    display: "inline-block",
+    perspective: 1000,
+  });
+  gsap.set(".section__three .char", {
+    display: "inline-block",
+    opacity: 0.2,
+    z: -800,
+  });
+
+  gsap.to(".section__three .char", {
+    opacity: 1,
+    z: 0,
+    stagger: 0.04,
+    scrollTrigger: {
+      trigger: ".section__three",
       start: "top bottom",
       end: "bottom top",
       scrub: true,
