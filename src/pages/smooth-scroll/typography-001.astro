@@ -316,7 +316,7 @@ import Layout from "../../layouts/Layout.astro";
     <!-- fillll -->
 
     <section class="section__nine section-base">
-      <h2>EMBRACE</h2>
+      <h2 data-splitting>EMBRACE</h2>
       <p>
         Letting go is not giving up, but rather a courageous act of trust in the
         universe and in ourselves. So let us embrace the art of letting go, and
@@ -326,7 +326,7 @@ import Layout from "../../layouts/Layout.astro";
     </section>
 
     <section class="section__ten section-base">
-      <p>
+      <p data-splitting>
         Feel because you have a heart And let it guide you through the dark. For
         it's the well of emotions deep, That helps you laugh, love, and sleep.
       </p>
@@ -535,6 +535,28 @@ import Layout from "../../layouts/Layout.astro";
       trigger: ".section__five h2",
       start: "center bottom",
       end: "bottom top+=20%",
+      scrub: true,
+    },
+  });
+
+  // Section 10
+  gsap.set(".section__ten p .char", {
+    transformOrigin: "50% 100%",
+    scale: 0,
+    opacity: 0,
+    display: "inline-block",
+  });
+
+  gsap.to(".section__ten p .char", {
+    opacity: 1,
+    stagger: 0.05,
+    scale: 1,
+    ease: "power3.in",
+    scrollTrigger: {
+      trigger: ".section__ten p",
+      start: "center center",
+      end: "+=500%",
+      pin: ".section__ten",
       scrub: true,
     },
   });
