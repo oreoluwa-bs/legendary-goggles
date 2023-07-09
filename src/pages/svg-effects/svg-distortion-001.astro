@@ -53,10 +53,10 @@ import Layout from "../../layouts/Layout.astro";
 <script>
   import { gsap } from "gsap";
 
-  var bt = document.querySelectorAll(".button")[0];
-  var turbVal = { val: 0.000001 };
-  var turb = document.querySelectorAll("#filter feTurbulence")[0];
-  var btTl = gsap.timeline({
+  const bt = document.querySelectorAll(".button")[0];
+  const turbVal = { val: 0.000001 };
+  const turb = document.querySelectorAll("#filter feTurbulence")[0];
+  const btTl = gsap.timeline({
     paused: true,
     onUpdate: function () {
       turb.setAttribute("baseFrequency", "0 " + turbVal.val);
