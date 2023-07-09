@@ -1,0 +1,72 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<style>
+  .button {
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    background-color: #222; /* dark blue */
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    font-weight: 100;
+    text-decoration: none;
+    user-select: none;
+    letter-spacing: 1px;
+    color: white;
+    padding: 20px 40px;
+    text-transform: uppercase;
+    transition: background-color 0.1s ease-out;
+    -webkit-filter: url("#filter");
+    filter: url("#filter");
+  }
+
+  .button:hover {
+    background-color: #2cd892; /* green */
+  }
+</style>
+
+<Layout title="SVG Effects: Distortion 001">
+  <main>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-filters">
+      <defs>
+        <filter id="filter">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.00001 0.00001"
+            numOctaves="1"
+            result="warp"></feTurbulence>
+          <feDisplacementMap
+            xChannelSelector="R"
+            yChannelSelector="G"
+            scale="100"
+            in="SourceGraphic"
+            in2="warp"></feDisplacementMap>
+        </filter>
+      </defs>
+    </svg>
+
+    <a href="#" class="button">Click me</a>
+  </main>
+</Layout>
+
+<script>
+  import { gsap } from "gsap";
+
+  var bt = document.querySelectorAll(".button")[0];
+  var turbVal = { val: 0.000001 };
+  var turb = document.querySelectorAll("#filter feTurbulence")[0];
+  var btTl = gsap.timeline({
+    paused: true,
+    onUpdate: function () {
+      turb.setAttribute("baseFrequency", "0 " + turbVal.val);
+    },
+  });
+
+  btTl.to(turbVal, { val: 0.3, duration: 2 });
+  btTl.to(turbVal, { val: 0.000001, duration: 2 });
+
+  bt.addEventListener("click", function () {
+    btTl.restart();
+  });
+</script>
