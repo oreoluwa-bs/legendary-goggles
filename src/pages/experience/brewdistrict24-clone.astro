@@ -3,6 +3,27 @@ import Layout from "~/layouts/Layout.astro";
 ---
 
 <style>
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .lenis.lenis-scrolling iframe {
+    pointer-events: none;
+  }
+
   .background {
     background: rgb(111, 142, 153);
     position: relative;
@@ -23,13 +44,26 @@ import Layout from "~/layouts/Layout.astro";
   }
   .main__container {
     min-height: 100vh;
-    padding: 10rem 1rem;
+    padding: 8rem 1rem 4rem;
     position: relative;
     /* z-index: 1; */
   }
 
+  .beer-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    /* Removes Outline */
+    outline: none;
+
+    pointer-events: none;
+    z-index: 0;
+  }
+
   .hero__text {
     font-size: 7vw;
+    font-weight: 700;
     /* line-height: 6vw; */
     text-align: center;
     margin: 0;
@@ -40,11 +74,31 @@ import Layout from "~/layouts/Layout.astro";
     }
   }
 
+  .hero__text--top {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero__subtext {
+    font-size: 2vw;
+    font-weight: 600;
+    /* line-height: 6vw; */
+    text-align: center;
+    margin: 0;
+    color: white;
+    display: block;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 2;
+  }
+
   .spacer {
     height: 700px;
   }
 
   .order__section {
+    position: relative;
+    z-index: 0;
   }
 
   .order__grid {
@@ -73,13 +127,13 @@ import Layout from "~/layouts/Layout.astro";
     padding: 1rem;
 
     border-radius: 48px;
-    color: white;
+    color: rgba(255, 255, 255, 0.5);
     border: 1px dashed currentColor;
   }
 
   .order__showcase__inner {
     width: 330px;
-    height: 574px;
+    height: 564px;
 
     border-radius: 32px;
     color: white;
@@ -94,9 +148,12 @@ import Layout from "~/layouts/Layout.astro";
         <h2 class="hero__text">
           <span>CLASSIC CRAFT BEERS,</span>
           <span>BREWED WITHOUT</span>
-          <span>FUSS</span>
+          <span class="hero__text--top">FUSS</span>
         </h2>
+        <span class="hero__subtext">PURE, HONEST AND DAMN DELICIOUS</span>
       </section>
+
+      <canvas class="beer-canvas"> </canvas>
 
       <div class="spacer"></div>
 
@@ -118,3 +175,54 @@ import Layout from "~/layouts/Layout.astro";
     </main>
   </div>
 </Layout>
+
+<script>
+  import Lenis from "@studio-freight/lenis";
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/all";
+  import { BeerExperience } from "~/app/brew-district-clone";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const lenis = new Lenis({
+    smoothWheel: true,
+  });
+
+  function raf(time: number) {
+    lenis.raf(time);
+
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);
+
+  lenis.on("scroll", () => {
+    ScrollTrigger.update();
+  });
+
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+  });
+
+  gsap.ticker.lagSmoothing(0);
+
+  gsap.from(".order__showcase", {
+    y: -625,
+    scrollTrigger: {
+      trigger: ".main__container",
+      start: "top top",
+      // trigger: el,
+      // start: index === 0 ? "clamp(top bottom)" : "top bottom", // top of the trigger  hits the bottom of the viewport
+      // start: "top bottom", // top of the trigger  hits the bottom of the viewport
+      // end: "+600",
+      end: "bottom bottom",
+
+      scrub: true,
+    },
+  });
+
+  const canvas =
+    document.querySelector<HTMLCanvasElement>("canvas.beer-canvas")!;
+
+  const b = new BeerExperience(canvas);
+</script>
