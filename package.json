@@ -18,7 +18,8 @@
     "gsap": "^3.11.5",
     "imagesloaded": "^5.0.0",
     "sass": "^1.62.1",
-    "splitting": "^1.0.6"
+    "splitting": "^1.0.6",
+    "three": "^0.164.1"
   },
   "devDependencies": {
     "@types/imagesloaded": "^4.1.2",

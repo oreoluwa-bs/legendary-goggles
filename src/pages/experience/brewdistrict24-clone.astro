@@ -1,0 +1,120 @@
+---
+import Layout from "~/layouts/Layout.astro";
+---
+
+<style>
+  .background {
+    background: rgb(111, 142, 153);
+    position: relative;
+
+    &::before {
+      content: "";
+      z-index: 0;
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      background: url(/models/brew-district/noise.png);
+      background-position: center center;
+      opacity: 0.2;
+      /* pointer-events: none; */
+    }
+  }
+  .main__container {
+    min-height: 100vh;
+    padding: 10rem 1rem;
+    position: relative;
+    /* z-index: 1; */
+  }
+
+  .hero__text {
+    font-size: 7vw;
+    /* line-height: 6vw; */
+    text-align: center;
+    margin: 0;
+    color: white;
+
+    & > span {
+      display: block;
+    }
+  }
+
+  .spacer {
+    height: 700px;
+  }
+
+  .order__section {
+  }
+
+  .order__grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    place-items: center;
+    gap: 2rem;
+  }
+
+  .order__nav {
+    background: none;
+    color: white;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    width: 107px;
+    height: 107px;
+
+    font-size: 2rem;
+    cursor: pointer;
+  }
+
+  .order__showcase {
+    /* width: 330px;
+    height: 574px; */
+    padding: 1rem;
+
+    border-radius: 48px;
+    color: white;
+    border: 1px dashed currentColor;
+  }
+
+  .order__showcase__inner {
+    width: 330px;
+    height: 574px;
+
+    border-radius: 32px;
+    color: white;
+    border: 1px solid currentColor;
+  }
+</style>
+
+<Layout title="Brew district 24">
+  <div class="background">
+    <main class="main__container">
+      <section class="hero">
+        <h2 class="hero__text">
+          <span>CLASSIC CRAFT BEERS,</span>
+          <span>BREWED WITHOUT</span>
+          <span>FUSS</span>
+        </h2>
+      </section>
+
+      <div class="spacer"></div>
+
+      <section class="order__section">
+        <div class="order__grid">
+          <div>
+            <button class="order__nav order__nav--prev"> &larr;</button>
+          </div>
+
+          <div class="order__showcase">
+            <div class="order__showcase__inner"></div>
+          </div>
+
+          <div>
+            <button class="order__nav order__nav--next"> &rarr;</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</Layout>

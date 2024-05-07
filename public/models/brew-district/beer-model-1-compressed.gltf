@@ -1,0 +1,548 @@
+{
+  "asset": {
+    "generator": "glTF-Transform v3.5.1",
+    "version": "2.0"
+  },
+  "accessors": [
+    {
+      "type": "SCALAR",
+      "componentType": 5125,
+      "count": 650700
+    },
+    {
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 108932,
+      "max": [
+        3.1341028213500977,
+        5.448317527770996,
+        3.1340999603271484
+      ],
+      "min": [
+        -3.134096384048462,
+        -5.446710586547852,
+        -3.134098768234253
+      ]
+    },
+    {
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 108932
+    },
+    {
+      "type": "SCALAR",
+      "componentType": 5123,
+      "count": 248832
+    },
+    {
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 41965,
+      "max": [
+        3.1693239212036133,
+        5.293021202087402,
+        3.169323444366455
+      ],
+      "min": [
+        -3.1693227291107178,
+        -4.7156877517700195,
+        -3.169322967529297
+      ]
+    },
+    {
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 41965
+    },
+    {
+      "type": "VEC2",
+      "componentType": 5126,
+      "count": 41965
+    },
+    {
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 141,
+      "max": [
+        12
+      ],
+      "min": [
+        0
+      ],
+      "bufferView": 0,
+      "byteOffset": 0
+    },
+    {
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 141,
+      "bufferView": 0,
+      "byteOffset": 564
+    },
+    {
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 35,
+      "max": [
+        12
+      ],
+      "min": [
+        0
+      ],
+      "bufferView": 0,
+      "byteOffset": 2256
+    },
+    {
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 35,
+      "bufferView": 0,
+      "byteOffset": 2396
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 2956
+    },
+    {
+      "buffer": 1,
+      "byteOffset": 0,
+      "byteLength": 334559
+    },
+    {
+      "buffer": 2,
+      "byteOffset": 0,
+      "byteLength": 445663
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9729,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "extensions": {
+        "EXT_texture_webp": {
+          "source": 0
+        }
+      }
+    },
+    {
+      "sampler": 0,
+      "extensions": {
+        "EXT_texture_webp": {
+          "source": 1
+        }
+      }
+    },
+    {
+      "sampler": 0,
+      "extensions": {
+        "EXT_texture_webp": {
+          "source": 2
+        }
+      }
+    },
+    {
+      "sampler": 0,
+      "extensions": {
+        "EXT_texture_webp": {
+          "source": 3
+        }
+      }
+    }
+  ],
+  "images": [
+    {
+      "mimeType": "image/webp",
+      "uri": "baseColor_1.webp"
+    },
+    {
+      "mimeType": "image/webp",
+      "uri": "baseColor_2.webp"
+    },
+    {
+      "mimeType": "image/webp",
+      "uri": "baseColor_3.webp"
+    },
+    {
+      "mimeType": "image/webp",
+      "uri": "baseColor_4.webp"
+    }
+  ],
+  "buffers": [
+    {
+      "uri": "beer-model-1-compressed_1.bin",
+      "byteLength": 2956
+    },
+    {
+      "uri": "beer-model-1-compressed_2.bin",
+      "byteLength": 334559
+    },
+    {
+      "uri": "beer-model-1-compressed_3.bin",
+      "byteLength": 445663
+    }
+  ],
+  "materials": [
+    {
+      "name": "Mat.1",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.89,
+          0.89,
+          0.89,
+          1
+        ],
+        "roughnessFactor": 0.36,
+        "metallicFactor": 0.35000000000000003
+      }
+    },
+    {
+      "name": "Ipa",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8,
+          0.8,
+          0.8,
+          1
+        ],
+        "roughnessFactor": 0.45,
+        "metallicFactor": 0.39,
+        "baseColorTexture": {
+          "index": 0
+        }
+      }
+    },
+    {
+      "name": "Blond",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8,
+          0.8,
+          0.8,
+          1
+        ],
+        "roughnessFactor": 0.45,
+        "metallicFactor": 0.39,
+        "baseColorTexture": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "name": "Stout",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8,
+          0.8,
+          0.8,
+          1
+        ],
+        "roughnessFactor": 0.45,
+        "metallicFactor": 0.39,
+        "baseColorTexture": {
+          "index": 2
+        }
+      }
+    },
+    {
+      "name": "Neipa",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8,
+          0.8,
+          0.8,
+          1
+        ],
+        "roughnessFactor": 0.45,
+        "metallicFactor": 0.39,
+        "baseColorTexture": {
+          "index": 3
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "0",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 1,
+            "NORMAL": 2
+          },
+          "mode": 4,
+          "material": 0,
+          "indices": 0,
+          "extensions": {
+            "KHR_draco_mesh_compression": {
+              "bufferView": 1,
+              "attributes": {
+                "POSITION": 0,
+                "NORMAL": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ipa",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 4,
+            "NORMAL": 5,
+            "TEXCOORD_0": 6
+          },
+          "mode": 4,
+          "material": 1,
+          "indices": 3,
+          "extensions": {
+            "KHR_draco_mesh_compression": {
+              "bufferView": 2,
+              "attributes": {
+                "POSITION": 0,
+                "NORMAL": 1,
+                "TEXCOORD_0": 2
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Blond",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 4,
+            "NORMAL": 5,
+            "TEXCOORD_0": 6
+          },
+          "mode": 4,
+          "material": 2,
+          "indices": 3,
+          "extensions": {
+            "KHR_draco_mesh_compression": {
+              "bufferView": 2,
+              "attributes": {
+                "POSITION": 0,
+                "NORMAL": 1,
+                "TEXCOORD_0": 2
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stout",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 4,
+            "NORMAL": 5,
+            "TEXCOORD_0": 6
+          },
+          "mode": 4,
+          "material": 3,
+          "indices": 3,
+          "extensions": {
+            "KHR_draco_mesh_compression": {
+              "bufferView": 2,
+              "attributes": {
+                "POSITION": 0,
+                "NORMAL": 1,
+                "TEXCOORD_0": 2
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Neipa",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 4,
+            "NORMAL": 5,
+            "TEXCOORD_0": 6
+          },
+          "mode": 4,
+          "material": 4,
+          "indices": 3,
+          "extensions": {
+            "KHR_draco_mesh_compression": {
+              "bufferView": 2,
+              "attributes": {
+                "POSITION": 0,
+                "NORMAL": 1,
+                "TEXCOORD_0": 2
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "name": "groep brewdistrict blikjes",
+      "translation": [
+        -0.14986635744571686,
+        0.8908452987670898,
+        0.013482880778610706
+      ],
+      "rotation": [
+        -0.21514728665351868,
+        -0.6082057952880859,
+        -0.21951448917388916,
+        0.7318543195724487
+      ],
+      "children": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "name": "0",
+      "translation": [
+        0.012862475588917732,
+        0.026659537106752396,
+        0.02064596861600876
+      ],
+      "rotation": [
+        -0.7059516310691833,
+        -6.7743374251123464e-15,
+        6.7522578172762686e-15,
+        -0.7082600593566895
+      ],
+      "mesh": 0
+    },
+    {
+      "name": "Ipa",
+      "translation": [
+        0.012862475588917732,
+        0.026659537106752396,
+        0.02064596861600876
+      ],
+      "rotation": [
+        -0.7059516310691833,
+        -5.976082140675106e-15,
+        5.956604618052993e-15,
+        -0.7082600593566895
+      ],
+      "mesh": 1
+    },
+    {
+      "name": "Blond",
+      "translation": [
+        0.012862475588917732,
+        0.026659537106752396,
+        0.02064596861600876
+      ],
+      "rotation": [
+        -0.7059516310691833,
+        -5.976082140675106e-15,
+        5.956604618052993e-15,
+        -0.7082600593566895
+      ],
+      "mesh": 2
+    },
+    {
+      "name": "Stout",
+      "translation": [
+        0.012862475588917732,
+        0.026659537106752396,
+        0.02064596861600876
+      ],
+      "rotation": [
+        -0.7059516310691833,
+        -5.976082140675106e-15,
+        5.956604618052993e-15,
+        -0.7082600593566895
+      ],
+      "mesh": 3
+    },
+    {
+      "name": "Neipa",
+      "translation": [
+        0.012862475588917732,
+        0.026659537106752396,
+        0.02064596861600876
+      ],
+      "rotation": [
+        -0.7059516310691833,
+        -5.976082140675106e-15,
+        5.956604618052993e-15,
+        -0.7082600593566895
+      ],
+      "mesh": 4
+    }
+  ],
+  "animations": [
+    {
+      "samplers": [
+        {
+          "input": 7,
+          "output": 8,
+          "interpolation": "LINEAR"
+        },
+        {
+          "input": 9,
+          "output": 10,
+          "interpolation": "LINEAR"
+        }
+      ],
+      "channels": [
+        {
+          "sampler": 0,
+          "target": {
+            "node": 0,
+            "path": "translation"
+          }
+        },
+        {
+          "sampler": 1,
+          "target": {
+            "node": 0,
+            "path": "rotation"
+          }
+        }
+      ]
+    }
+  ],
+  "scenes": [
+    {
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "extensionsUsed": [
+    "EXT_texture_webp",
+    "KHR_draco_mesh_compression"
+  ],
+  "extensionsRequired": [
+    "EXT_texture_webp",
+    "KHR_draco_mesh_compression"
+  ]
+}
