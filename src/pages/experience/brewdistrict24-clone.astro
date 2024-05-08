@@ -3,6 +3,15 @@ import Layout from "~/layouts/Layout.astro";
 ---
 
 <style>
+  @import url("https://fonts.googleapis.com/css2?family=Eczar:wght@400..800&display=swap");
+
+  .eczar-font {
+    font-family: "Eczar", serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+  }
+
   html.lenis,
   html.lenis body {
     height: auto;
@@ -28,7 +37,7 @@ import Layout from "~/layouts/Layout.astro";
     background: rgb(111, 142, 153);
     position: relative;
 
-    &::before {
+    /* &::before {
       content: "";
       z-index: 0;
       height: 100%;
@@ -39,9 +48,23 @@ import Layout from "~/layouts/Layout.astro";
       background: url(/models/brew-district/noise.png);
       background-position: center center;
       opacity: 0.2;
-      /* pointer-events: none; */
+      /* pointer-events: none;
     }
+    */
   }
+
+  .noise {
+    z-index: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background: url(/models/brew-district/noise.png);
+    background-position: center center;
+    opacity: 0.2;
+  }
+
   .main__container {
     min-height: 100vh;
     padding: 8rem 1rem 4rem;
@@ -58,7 +81,7 @@ import Layout from "~/layouts/Layout.astro";
     outline: none;
 
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
   }
 
   .hero__text {
@@ -98,7 +121,6 @@ import Layout from "~/layouts/Layout.astro";
 
   .order__section {
     position: relative;
-    z-index: 0;
   }
 
   .order__grid {
@@ -124,11 +146,22 @@ import Layout from "~/layouts/Layout.astro";
   .order__showcase {
     /* width: 330px;
     height: 574px; */
+
+    /* position: relative; */
+    /* z-index: 0; */
+
+    position: relative;
+    z-index: 0;
+  }
+
+  .order__showcase__outer {
     padding: 1rem;
 
     border-radius: 48px;
     color: rgba(255, 255, 255, 0.5);
     border: 1px dashed currentColor;
+    position: relative;
+    z-index: -10;
   }
 
   .order__showcase__inner {
@@ -138,13 +171,61 @@ import Layout from "~/layouts/Layout.astro";
     border-radius: 32px;
     color: white;
     border: 1px solid currentColor;
+
+    /* z-index: -1; */
+  }
+
+  .order__name {
+    font-size: 7vw;
+    font-weight: 600;
+    line-height: 1.1;
+    position: absolute;
+    top: -2.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    color: black;
+    text-align: center;
+  }
+
+  .svg_transition {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+
+    height: 100vh;
+    width: 100vw;
+
+    pointer-events: none;
+
+    /* background: red; */
+    transform-origin: center center;
+    margin: auto;
+    z-index: 0;
+  }
+  .svg_transition > * {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    transform: scale(0.1, 0.1);
+    border-radius: 9000px;
+    overflow: hidden;
+    opacity: 0;
+  }
+  .svg_transition .outer::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.2;
   }
 </style>
 
 <Layout title="Brew district 24">
   <div class="background">
     <main class="main__container">
-      <section class="hero">
+      <section class="hero eczar-font">
         <h2 class="hero__text">
           <span>CLASSIC CRAFT BEERS,</span>
           <span>BREWED WITHOUT</span>
@@ -153,18 +234,28 @@ import Layout from "~/layouts/Layout.astro";
         <span class="hero__subtext">PURE, HONEST AND DAMN DELICIOUS</span>
       </section>
 
+      <div class="svg_transition">
+        <div class="outer"></div>
+        <div class="inner"></div>
+      </div>
+
+      <div class="noise"></div>
+
       <canvas class="beer-canvas"> </canvas>
 
       <div class="spacer"></div>
 
       <section class="order__section">
+        <div class="order__name eczar-font"></div>
         <div class="order__grid">
           <div>
             <button class="order__nav order__nav--prev"> &larr;</button>
           </div>
 
           <div class="order__showcase">
-            <div class="order__showcase__inner"></div>
+            <div class="order__showcase__outer">
+              <div class="order__showcase__inner"></div>
+            </div>
           </div>
 
           <div>

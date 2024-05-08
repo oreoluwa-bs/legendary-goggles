@@ -4,8 +4,35 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { gsap } from "gsap";
 
+const beer = {
+  Ipa: {
+    name: "Ipa",
+    bg_color: "rgb(111, 142, 153)",
+  },
+  Blond: {
+    name: "American blonde",
+    bg_color: "rgb(117, 132, 106)",
+  },
+  Stout: {
+    name: "Imperial stout",
+    bg_color: "rgb(174, 102, 103)",
+  },
+  Neipa: {
+    name: "Neipa",
+    bg_color: "rgb(89, 111, 97)",
+  },
+};
+
+const beerArr = Object.entries(beer).map(([key, value]) => ({
+  key,
+  ...value,
+}));
+
 export class BeerExperience {
-  canvas: HTMLCanvasElement;
+  el: {
+    canvas: HTMLCanvasElement;
+    [key: string]: HTMLElement;
+  };
   scene: THREE.Scene;
   sizes: {
     width: number;
@@ -35,9 +62,37 @@ export class BeerExperience {
     [key: string]: any;
   } = {};
 
+  state = {
+    currentModel: beerArr.at(0)!.key,
+  };
+
   constructor(canvas: HTMLCanvasElement) {
-    // Canvas
-    this.canvas = canvas;
+    this.el = {
+      // Canvas
+      canvas: canvas,
+
+      background: document.querySelector<HTMLElement>(".background")!,
+
+      svg_transition_wrapper:
+        document.querySelector<HTMLElement>(".svg_transition")!,
+      svg_transition_outer: document.querySelector<HTMLElement>(
+        ".svg_transition .outer"
+      )!,
+      svg_transition_inner: document.querySelector<HTMLElement>(
+        ".svg_transition .inner"
+      )!,
+
+      slider_name: document.querySelector<HTMLElement>(".order__name")!,
+      slider_next_btn: document.querySelector<HTMLButtonElement>(
+        ".order__nav.order__nav--next"
+      )!,
+      slider_prev_btn: document.querySelector<HTMLButtonElement>(
+        ".order__nav.order__nav--prev"
+      )!,
+    };
+
+    this.el.slider_name.innerText =
+      beer[this.state.currentModel as keyof typeof beer].name;
 
     // Scene
     this.scene = new THREE.Scene();
@@ -65,7 +120,7 @@ export class BeerExperience {
 
     // Renderer
     this.renderer = new THREE.WebGLRenderer({
-      canvas: this.canvas,
+      canvas: this.el.canvas,
       alpha: true,
     });
     // this.renderer.setClearColor();
@@ -74,7 +129,7 @@ export class BeerExperience {
     this.renderer.setPixelRatio(this.sizes.pixelRatio);
 
     // Controls
-    this.controls = new OrbitControls(this.camera, this.canvas);
+    this.controls = new OrbitControls(this.camera, this.el.canvas);
     this.controls.enabled = false;
     this.controls.enableDamping = true;
 
@@ -143,12 +198,18 @@ export class BeerExperience {
 
         // model.scene.position.y = -0.5;
 
+        // console.log(model.scene);
+
         model.scene.traverse((child) => {
           if (
             child instanceof THREE.Mesh &&
             child.material instanceof THREE.MeshStandardMaterial
           ) {
             child.material.metalness = 1;
+            if (child.name !== "0" && child.name !== this.state.currentModel) {
+              // console.log(child.name, this.state.currentModel, child);
+              child.visible = false;
+            }
           }
         });
       }
@@ -225,6 +286,19 @@ export class BeerExperience {
     // this.scene.add(helper2);
   }
 
+  updateSVGTransitionPosition() {
+    const beerModel = this.resources["beer_model"].scene;
+    // const screenPosition = beerModel.position.clone();
+    const box3 = new THREE.Box3().setFromObject(beerModel);
+    const screenPosition = new THREE.Vector3(0, 0, 0);
+    box3.getCenter(screenPosition);
+    screenPosition.project(this.camera);
+
+    const translateX = screenPosition.x * this.sizes.width * 0.5;
+    const translateY = -screenPosition.y * this.sizes.height * 0.5;
+    this.el.svg_transition_wrapper.style.transform = `translate(${translateX}px,${translateY}px)`;
+  }
+
   update() {
     const currentTime = Date.now();
 
@@ -233,6 +307,10 @@ export class BeerExperience {
     this.elapsedTime = this.currentTime - this.startTime;
 
     this.controls.update(this.deltaTime);
+
+    if (this.resources["beer_model"]) {
+      this.updateSVGTransitionPosition();
+    }
 
     for (const anim of Object.values(this.animations)) {
       if (anim.mixer) {
@@ -248,6 +326,117 @@ export class BeerExperience {
 
   addListeners() {
     window.addEventListener("resize", this.resize.bind(this));
+
+    this.el.slider_next_btn.addEventListener(
+      "click",
+      this.nextModel.bind(this)
+    );
+    this.el.slider_prev_btn.addEventListener(
+      "click",
+      this.prevModel.bind(this)
+    );
+  }
+
+  changeCurrentModel(nextModelKey: string) {
+    const tl = gsap.timeline({ defaults: { duration: 1.5 } });
+    const beerModel = this.resources["beer_model"];
+
+    const nextModel = beer[nextModelKey as keyof typeof beer];
+
+    tl.to(
+      beerModel.scene.rotation,
+      {
+        // y: beerModel.scene.rotation.y + Math.PI * 2,
+        y: Math.PI * 2,
+        onComplete: () => {
+          beerModel.scene.rotation.y = 0;
+        },
+      },
+      "start"
+    )
+      .to(
+        this.el.svg_transition_outer,
+        {
+          // height: this.sizes.height,
+          // width: this.sizes.width,
+          scale: 2,
+          autoAlpha: 1,
+          backgroundColor: nextModel.bg_color,
+          transformOrigin: "center center",
+        },
+        "start"
+      )
+      .to(
+        this.el.svg_transition_inner,
+        {
+          scale: 2,
+          autoAlpha: 1,
+          backgroundColor: nextModel.bg_color,
+          transformOrigin: "center center",
+          delay: 0.2,
+        },
+        "start"
+      )
+      .set(this.el.background, {
+        backgroundColor: nextModel.bg_color,
+      })
+      .set([this.el.svg_transition_outer, this.el.svg_transition_inner], {
+        scale: 0.1,
+        autoAlpha: 0,
+      })
+      .to(
+        this.el.slider_name,
+        {
+          x: -20,
+          opacity: 0,
+          // duration: 1.6,
+        },
+        "start"
+      )
+      .set(this.el.slider_name, {
+        x: 0,
+        innerText: nextModel.name,
+      })
+      .to(
+        this.el.slider_name,
+        {
+          opacity: 1,
+          // duration: 1.7,
+        }
+        // "start"
+      );
+
+    this.scene.traverse((child) => {
+      if (
+        child instanceof THREE.Mesh &&
+        child.material instanceof THREE.MeshStandardMaterial
+      ) {
+        // child.material.metalness = 1;
+        if (child.name !== "0" && child.name === this.state.currentModel) {
+          child.visible = false;
+        }
+        if (child.name !== "0" && child.name === nextModelKey) {
+          child.visible = true;
+        }
+      }
+    });
+
+    this.state.currentModel = nextModelKey;
+  }
+
+  nextModel() {
+    const currInd = beerArr.findIndex((r) => r.key === this.state.currentModel);
+    const nextInd = currInd + 1 > beerArr.length - 1 ? 0 : currInd + 1;
+
+    this.changeCurrentModel(beerArr.at(nextInd)!.key);
+  }
+
+  prevModel() {
+    const currInd = beerArr.findIndex((r) => r.key === this.state.currentModel);
+
+    const nextInd = currInd - 1 < 0 ? beerArr.length - 1 : currInd - 1;
+
+    this.changeCurrentModel(beerArr.at(nextInd)!.key);
   }
 
   resize() {
@@ -289,3 +478,19 @@ export class BeerExperience {
 // );
 
 // this.scene.add(testMesh);
+
+function getCenterPoint(mesh: any) {
+  const middle = new THREE.Vector3();
+  const geometry =
+    mesh instanceof THREE.Mesh || mesh.isMesh ? mesh.geometry : mesh;
+
+  geometry.computeBoundingBox();
+  geometry.boundingBox.getSize(middle);
+
+  middle.x = middle.x / 2;
+  middle.y = middle.y / 2;
+  middle.z = middle.z / 2;
+
+  mesh.localToWorld(middle);
+  return middle;
+}
