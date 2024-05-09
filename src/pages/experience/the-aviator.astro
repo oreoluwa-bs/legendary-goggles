@@ -1,0 +1,32 @@
+---
+import Layout from "~/layouts/Layout.astro";
+---
+
+<style>
+  #world {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(#e4e0ba, #f7d9aa);
+
+    /* & canvas {
+      width: 100%;
+      height: 100%;
+    } */
+  }
+</style>
+
+<Layout title="The aviator">
+  <div class="background">
+    <main class="main__container">
+      <canvas id="world"></canvas>
+    </main>
+  </div>
+
+  <script>
+    import { TheAviatorExperience } from "~/app/the-aviator/experience";
+
+    new TheAviatorExperience(document.querySelector("#world")!);
+  </script>
+</Layout>
